@@ -714,4 +714,32 @@ ttcc [=
 
 =]
 
+tptp [=
+    content = plain_text_content
+    lns[] = lines(content)
+    content_block[] blx = parse_blocks(lns)
+    content_block first_para = blx[0]
+    content_block second_para = blx[1]
+    
+    if (blx.count == 2) [=
+        "A";
+        test_log("correct paragraph count");
+    =] else [=
+        test_log("incorrect paragraph count " + blx.count + " (expected 2)");
+    =]
+    if (starts_with(first_para, "<p>This is the first") && ends_with(first_para, "</p>")) [=
+        "B";
+        test_log("correct first paragraph");
+    =] else [=
+        test_log("incorrect first paragraph: " + first_para);
+    =]
+    if (starts_with(second_para, "<p>This is the second") && ends_with(second_para, "</p>")) [=
+        "C";
+        test_log("correct second paragraph");
+    =] else [=
+        test_log("incorrect second paragraph: " + second_para);
+    =]
+=]
+
+
 =]
