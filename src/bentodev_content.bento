@@ -439,7 +439,7 @@ Fourth line is plain text.
             =] else [=
                 test_log("incorrect block count " + blx.count + " (expected 1)");
             =]
-            if (bullet.count == 4) [=
+            if (bullet.count == 3) [=
                 "B";
                 test_log("correct bullet count");
             =] else [=
