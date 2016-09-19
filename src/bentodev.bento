@@ -128,7 +128,7 @@ site bentodev [=
         =]    
     =]    
 
-    menu_item[] main_menu = [ menu_item(index), menu_item(overview), menu_item(docs), menu_item(download), menu_item(examples) ]
+    dynamic menu_item[] main_menu = [ menu_item(index), menu_item(overview), menu_item(docs), menu_item(download), menu_item(examples) ]
 
 
     media_queries [=
@@ -417,7 +417,7 @@ site bentodev [=
         base_page this_page = owner
         page_name = owner.type
 
-        log("constructing base_page, this_username is " + this_username);
+        log("constructing base_page, page_name is " + page_name);
         if (needs_login && !logged_in) [=
             log("needs login");
             login_splash_box;
@@ -633,45 +633,26 @@ site bentodev [=
      *  availability; other sources of article information, such as the article
      *  lookup table, are constructed from this list.
      **/
-    article[] all_articles = [ quick_tour_article, leisurely_tour_article, backstory_article ]
+    global article[] all_articles = [ quick_tour_article, leisurely_tour_article, backstory_article ]
 
     /** Lookup table for articles.  Keyed on article key. **/
-    article{} article_table = { for article a in all_articles [= a.key: a =] }
+    global article{} article_table = { for article a in all_articles [= a.key: a =] }
     
-    article overview_article(doc_name, article_name) [=
+    global article overview_article(doc_name, article_name) [=
         title = article_name
         key = doc_name
         content = include_content(doc_name)
     =]
 
-    article quick_tour_article = overview_article("quick_tour", "A Brief Tour of Bento");
-    article leisurely_tour_article = overview_article("leisurely_tour", "A More Leisurely Tour of Bento");
-    article backstory_article = overview_article("backstory", "Bento Backstory")
+    global article quick_tour_article = overview_article("quick_tour", "A Brief Tour of Bento");
+    global article leisurely_tour_article = overview_article("leisurely_tour", "A More Leisurely Tour of Bento");
+    global article backstory_article = overview_article("backstory", "Bento Backstory")
 
-    aa[] aa_a = [ qta ]
-    
-    aa{} aa_t = { for aa a in aa_a [= "q": a =] }
-
-    aa qta = oa("Q")
-    
-    aa oa(z) [=
-        z;
-    =]
-    
-    aa [/]
-    
-    ttt [=
-        aa_t{"q"};
-    =] 
-    
-    aaaa [=
-        aa_a[0];
-    =]
-    
+   
     base_page(*) overview(params{}) [=
         boolean needs_login = false    
 
-        label = "Show me code"
+        label = "A Tour of Bento"
 
         article_param = params{"article"}
         
@@ -689,13 +670,9 @@ site bentodev [=
     =]
 
     dynamic include_content(doc_name) [=
-        include_file(main_site.filepath + "/docs/" + doc_name + ".mmd");
+        include_file(main_site.filepath + "/docs/" + doc_name + ".md");
     =]
 
-ovw [=
-       
-       article_table{"quick_tour"};
-=]
 
 
     /-------- docs page ---------------------------/

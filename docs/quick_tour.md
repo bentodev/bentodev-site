@@ -99,8 +99,14 @@ function.  Instantiating a definition is the equivalent of calling a function,
 with the return value being the output specified by the definition's constructions.    
 
 * If a definition contains definitions, then the defined entity can play the role of 
-interface.  
- 
+interface.
+
+* By default, when a definition is instantiated, the value is cached, and if the definition
+is referenced again in the same scope the cached value is used instead of constructing the
+value again. Such a definition can play the role of a variable.
+
+* A definition can specify that a child definition's value be cached along with its parent.
+Such a definition can play the role of an object. 
 
 
 
