@@ -664,4 +664,15 @@ Fourth line is plain text.
         =]
     =]
 
+tbc [=
+  content = bullet_only_content
+  lns[] = lines(content)
+  content_block[] blx = parse_blocks(lns)
+  content_block first_block = blx[0]
+  bullet[] = split(first_block, "<li>")
+            
+  bullet.count;
+=]
+
+
 =]
