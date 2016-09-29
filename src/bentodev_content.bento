@@ -429,17 +429,25 @@ Fourth line is plain text.
             content_block first_block = blx[0]
             bullet[] = split(first_block, "<li>")
             
+            // the split on <li> includes the leading <ul> plus the parsed bullets, so the 
+            // number of elements in the bullet array is one more than the actual number 
+            // of bullets
+            
+            int bullet_count = bullet.count - 1
+            
             if (blx.count == 1) [=
                 "A";
                 test_log("correct block count");
             =] else [=
                 test_log("incorrect block count " + blx.count + " (expected 1)");
             =]
-            if (bullet.count == 3) [=
+
+           
+            if (bullet_count == 3) [=
                 "B";
                 test_log("correct bullet count");
             =] else [=
-                test_log("incorrect bullet count " + bullet.count + " (expected 3)");
+                test_log("incorrect bullet count " + bullet_count + " (expected 3)");
             =]
             if (bullet.count > 0) [=
                 if (index_of(bullet[0], "<ul>") >= 0) [=
@@ -449,7 +457,7 @@ Fourth line is plain text.
                     test_log("no list tag, instead: " + bullet[0]);
                 =]
             =]
-            if (bullet.count > 1) [=
+            if (bullet_count > 0) [=
                 if (index_of(bullet[1], "first") >= 0 && index_of(bullet[1], "second") < 0) [=
                     "D";
                     test_log("correct first bullet");
@@ -459,7 +467,7 @@ Fourth line is plain text.
             =] else [=
                 test_log("missing first bullet");
             =]
-            if (bullet.count > 2) [=
+            if (bullet_count > 1) [=
                 if (index_of(bullet[2], "second") >= 0 && index_of(bullet[2], "first") < 0) [=
                     "E";
                     test_log("correct second bullet");
@@ -469,7 +477,7 @@ Fourth line is plain text.
             =] else [=
                 test_log("missing second bullet");
             =]
-            if (bullet.count > 3) [=
+            if (bullet_count > 2) [=
                 if (index_of(bullet[3], "third") >= 0) [=
                     "F";
                     test_log("correct third bullet");
@@ -621,7 +629,10 @@ Fourth line is plain text.
             content_block first_block = blx[0]
             content_block second_block = blx[1]
             content_block third_block = blx[2]
-            bullet[] = split(second_block, "<li>")
+            
+            // the bullet block should begin with "<ul><li>" and have as many bullets as <li>'s
+            bullet_block = starts_with(second_block, "<ul><li>") ? substring(second_block, 8) : ""
+            bullet[] = split(bullet_block, "<li>")
             
             if (blx.count == 3) [=
                 "A";
@@ -670,7 +681,6 @@ tbc [=
   content_block[] blx = parse_blocks(lns)
   content_block first_block = blx[0]
   bullet[] = split(first_block, "<li>")
-            
   bullet.count;
 =]
 
